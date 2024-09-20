@@ -12,7 +12,6 @@ function App() {
   }
 
   return (
-
     <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow" style={{ maxWidth: '400px', width: '100%' }}>
         <h3 className="text-center mb-4">Sign Up</h3>
