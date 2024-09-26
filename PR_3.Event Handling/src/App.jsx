@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div align="center">
-      <h1>Filter App</h1>
+      <h1 className="font-monospace fw-bold mt-4">Filter App</h1>
       <Product 
         category = {category}
         item={item}

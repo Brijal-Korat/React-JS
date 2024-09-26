@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+// import 'index.css';
 
 const Product = ({ category, item, categoryButtonClick, filterData }) => {
     return (
@@ -33,10 +34,10 @@ const Product = ({ category, item, categoryButtonClick, filterData }) => {
                             filterData.map((pr, index) => (
                                 <div className="col-lg-3 col-md-4 col-sm-6 mb-4">
                                     <div className="card h-100 text-center">
-                                        <img src={pr.image} className="card-img-top" alt={pr.name} />
+                                        <img src={pr.image} className="card-img-top mx-3" alt={pr.name} />
                                         <div className="card-body">
                                             <h5 className="card-title">{pr.name}</h5>
-                                            <p className="card-text">${pr.price}</p>
+                                            <p className="card-text">Rs.{pr.price}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -48,7 +49,7 @@ const Product = ({ category, item, categoryButtonClick, filterData }) => {
                                         <img src={pr.image} className="card-img-top" alt={pr.name} />
                                         <div className="card-body">
                                             <h5 className="card-title">{pr.name}</h5>
-                                            <p className="card-text">${pr.price}</p>
+                                            <p className="card-text">Rs.{pr.price}</p>
                                         </div>
                                     </div>
                                 </div>

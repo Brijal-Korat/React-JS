@@ -41,21 +41,21 @@ const item = [
         id: 2,
         name: 'Samsung S24 Ultra',
         price: 150000,
-        image: 'https://i.pinimg.com/564x/44/db/f3/44dbf3252affe1b050eef4b7ea01c988.jpg',
+        image: 'https://i.pinimg.com/564x/0f/57/98/0f57981d169adc45c5455ebd7a949c7b.jpg',
         category: 'Mobiles'
     },
     {
         id: 3,
         name: 'Galaxy Z Flip 4',
         price: 75000,
-        image: 'https://i.pinimg.com/564x/69/ce/50/69ce507b6f3c53d2667ba980cca656a1.jpg',
+        image: 'https://i.pinimg.com/564x/28/58/aa/2858aab605d5b9c2c843020b623f77b6.jpg',
         category: 'Mobiles'
     },
     {
         id: 4,
         name: 'MacBook Pro 16',
         price: 240000,
-        image: 'https://i.pinimg.com/564x/12/3e/f6/123ef687e4fa6f6c9fe9c22df36045fc.jpg',
+        image: 'https://i.pinimg.com/564x/23/58/60/23586016a85ddb3bf2029058ab6558a7.jpg',
         category: 'Laptops'
     },
     {
