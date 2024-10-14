@@ -13,7 +13,7 @@ function App() {
   const addNote = () => {
     if (!title || !take) {
       alert("Please fill all the fields...!");
-      return;
+      return false;
     }
 
     let newNote = {
