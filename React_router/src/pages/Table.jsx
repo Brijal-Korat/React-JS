@@ -5,7 +5,7 @@ const Table = () => {
   return (
     <div>
       <h2>View User</h2>
-      <Link to={"/"}>Add</Link>
+      <Link to={"/form"}>Add</Link>
     </div>
   )
 }

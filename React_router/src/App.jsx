@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Table from "./pages/Table"
-import Form from "./pages/Form"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Table from "./pages/Table";
+import Form from "./pages/Form";
 
 function App() {
   return (

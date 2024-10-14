@@ -6,7 +6,7 @@ const Form = () => {
     <div>
         <h2>Add User</h2>
         <input type="text" />
-        <Link to={"/form"}>View</Link>
+        <Link to={"/"}>View</Link>
     </div>
   )
 }
