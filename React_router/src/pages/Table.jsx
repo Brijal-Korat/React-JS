@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { isValidElement, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Table = () => {
@@ -7,6 +7,8 @@ const Table = () => {
   const allUsers = JSON.parse(localStorage.getItem("users")) ? JSON.parse(localStorage.getItem("users")) : []
 
   const [record, setRecord] = useState(allUsers);
+  const [status, setStatus] = useState("");
+  const [search, setSearch] = useState("");
 
   const userDelete = (id) => {
     let d = record.filter(val => val.id != id);
@@ -15,10 +17,23 @@ const Table = () => {
     alert("Record deleted..!");
   }
 
+  useEffect (() => {
+    if(status != ""){
+      let filter = record.filter(val => val.status === status);
+      console.log(filter);
+    }
+  })
+
   return (
     <div align="center">
       <h2>View User</h2>
-      
+
+      <select>
+        <option value="">--- select status ---</option>
+        <option value="">Active</option>
+        <option value="">Deactive</option>
+      </select>
+
       <table border={1}>
         <thead>
           <tr>
