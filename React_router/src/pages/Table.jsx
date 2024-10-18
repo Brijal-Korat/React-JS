@@ -1,6 +1,7 @@
 import React, { isValidElement, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+
 const Table = () => {
 
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Table = () => {
   const [record, setRecord] = useState(allUsers);
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
 
   const userDelete = (id) => {
     let d = record.filter(val => val.id != id);
@@ -17,25 +19,25 @@ const Table = () => {
     alert("Record deleted..!");
   }
 
-  const changeStatus = (id,st) => {
-    if(st == "active"){
+  const changeStatus = (id, st) => {
+    if (st == "active") {
       let up = record.map((val) => {
-        if(val.id == id){
+        if (val.id == id) {
           val.status = "deactive";
         }
         return val;
       })
-      localStorage.setItem("users",JSON.stringify(up))
+      localStorage.setItem("users", JSON.stringify(up))
       setRecord(up);
       alert("Status changed..!");
-    }else{
+    } else {
       let up = record.map((val) => {
-        if(val.id == id){
+        if (val.id == id) {
           val.status = "active";
         }
         return val;
       })
-      localStorage.setItem("users",JSON.stringify(up))
+      localStorage.setItem("users", JSON.stringify(up))
       setRecord(up);
       alert("Status changed..!");
     }
@@ -45,23 +47,35 @@ const Table = () => {
     let filtered = [...allUsers];
 
     if (status != "") {
-      filtered = filtered.filter( val => val.status === status);
-      console.log(filtered);
-    }else{
+      filtered = filtered.filter(val => val.status === status);
+    } else {
       setRecord(allUsers);
     }
 
-    if(search != ""){
-      filtered = filtered.filter( val => 
+    if (search != "") {
+      filtered = filtered.filter(val =>
         val.name.toLowerCase().includes(search.toLowerCase())
       )
-    }else{
+    } else {
       setRecord(allUsers);
+    }
+
+    if (sort === "ascending") {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === "descending") {
+      filtered.sort((a, b) => b.name.localeCompare(a.name));
     }
 
     setRecord(filtered);
 
-  }, [status, search])
+  }, [status, search, sort])
+
+  const resetData = () => {
+    setStatus("")
+    setSearch("");
+    setSort("");
+    setRecord(allUsers);
+  }
 
   return (
     <div align="center">
@@ -73,11 +87,19 @@ const Table = () => {
         <option value="deactive">Deactive</option>
       </select>
 
-      <input type="text" 
-            placeholder='Search here...'
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
+      <input type="text"
+        placeholder='Search here...'
+        onChange={(e) => setSearch(e.target.value)}
+        value={search}
       />
+
+      <select onChange={(e) => setSort(e.target.value)} value={sort}>
+        <option value="">--- select sorting ---</option>
+        <option value="ascending">A-Z</option>
+        <option value="descending">Z-A</option>
+      </select>
+
+      <button onClick={() => resetData()}>Reset</button>
 
       <br></br>
 
@@ -126,4 +148,4 @@ const Table = () => {
 
 export default Table;
 
-// make the status and search functionality in this code.
+// make the reset data functionality  in this code.
