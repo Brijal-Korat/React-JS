@@ -15,7 +15,8 @@ const Form = () => {
     let obj = {
       id : Math.floor(Math.random() * 10000),
       name : name,
-      phone : phone
+      phone : phone,
+      status : "active"
     }
 
     const newRecord = [...allRecord, obj];

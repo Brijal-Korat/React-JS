@@ -29,6 +29,15 @@ function App() {
       })
       setAllTask(up);
       alert("Status changed..!");
+    }else{
+      let up = allTask.map((val) => {
+        if(val.id == id){
+          val.status = "active";
+        }
+        return val;
+      })
+      setAllTask(up);
+      alert("Status changed..!");
     }
   }
 
