@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { json, Link, useNavigate } from 'react-router-dom'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 const Form = () => {
 
@@ -13,10 +15,10 @@ const Form = () => {
     e.preventDefault();
 
     let obj = {
-      id : Math.floor(Math.random() * 10000),
-      name : name,
-      phone : phone,
-      status : "active"
+      id: Math.floor(Math.random() * 10000),
+      name: name,
+      phone: phone,
+      status: "active"
     }
 
     const newRecord = [...allRecord, obj];
@@ -26,26 +28,47 @@ const Form = () => {
   }
 
   return (
-    <div>
-        <h2>Add User React Router</h2>
 
-        <form onSubmit={handleSubmit}>
-          <table border={1}>
-              <tr>
-                <td>Name :- </td>
-                <td><input type="text" onChange={(e) => setName(e.target.value)} value={name} /></td>
-              </tr>
-              <tr>
-                <td>Phone :- </td>
-                <td><input type="text" onChange={(e) => setPhone(e.target.value)} value={phone} /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><input type="submit" /></td>
-              </tr>
-          </table>
-        </form>
-        <Link to={'/'}>View</Link>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <h2 className="text-center mb-4">Add New User</h2>
+
+          <form onSubmit={handleSubmit}>
+            <div className="card mb-3">
+              <div className="card-body">
+                <label htmlFor="name" className="form-label">Name</label>
+                <input
+                  type="text"
+                  className="form-control mb-3"
+                  id="name"
+                  placeholder="Enter name"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                />
+
+                <label htmlFor="phone" className="form-label">Phone</label>
+                <input
+                  type="text"
+                  className="form-control mb-3"
+                  id="phone"
+                  placeholder="Enter phone number"
+                  onChange={(e) => setPhone(e.target.value)}
+                  value={phone}
+                />
+
+                <button type="submit" className="btn btn-primary w-100">Add User</button>
+              </div>
+
+            </div>
+
+          </form>
+
+          <div className="text-center mt-3">
+            <Link to="/" className="btn btn-secondary">View All Users</Link>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
