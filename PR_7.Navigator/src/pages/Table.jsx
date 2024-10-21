@@ -1,63 +1,65 @@
-import React, { useEffect, useState } from 'react'
+import React, { isValidElement, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 const Table = () => {
+
   const navigate = useNavigate();
-  const allUsers = JSON.parse(localStorage.getItem("users")) || [];
+  const allUsers = JSON.parse(localStorage.getItem("users")) ? JSON.parse(localStorage.getItem("users")) : []
 
   const [record, setRecord] = useState(allUsers);
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [mulDelete, setMulDelete] = useState([]);
 
   const userDelete = (id) => {
-    const updatedRecords = record.filter(val => val.id !== id);
-    localStorage.setItem("users", JSON.stringify(updatedRecords));
-    setRecord(updatedRecords);
-    alert("Record deleted!");
-  };
-
-  const handleBulkDelete = () => {
-    const updatedRecords = record.filter(user => !selectedUsers.includes(user.id));
-    localStorage.setItem("users", JSON.stringify(updatedRecords));
-    setRecord(updatedRecords);
-    setSelectedUsers([]);
-    alert("Selected records deleted!");
-  };
+    let d = record.filter(val => val.id != id);
+    localStorage.setItem("users", JSON.stringify(d));
+    setRecord(d);
+    alert("Record deleted..!");
+  }
 
   const changeStatus = (id, st) => {
-    const newStatus = st === "active" ? "deactive" : "active";
-    const updatedRecords = record.map((user) => {
-      if (user.id === id) {
-        return { ...user, status: newStatus };
-      }
-      return user;
-    });
-    localStorage.setItem("users", JSON.stringify(updatedRecords));
-    setRecord(updatedRecords);
-    alert("Status changed!");
-  };
-
-  const handleCheckboxChange = (id) => {
-    if (selectedUsers.includes(id)) {
-      setSelectedUsers(selectedUsers.filter(userId => userId !== id));
+    if (st == "active") {
+      let up = record.map((val) => {
+        if (val.id == id) {
+          val.status = "deactive";
+        }
+        return val;
+      })
+      localStorage.setItem("users", JSON.stringify(up))
+      setRecord(up);
+      alert("Status changed..!");
     } else {
-      setSelectedUsers([...selectedUsers, id]);
+      let up = record.map((val) => {
+        if (val.id == id) {
+          val.status = "active";
+        }
+        return val;
+      })
+      localStorage.setItem("users", JSON.stringify(up))
+      setRecord(up);
+      alert("Status changed..!");
     }
-  };
+  }
 
   useEffect(() => {
     let filtered = [...allUsers];
 
-    if (status !== "") {
+    if (status != "") {
       filtered = filtered.filter(val => val.status === status);
+    } else {
+      setRecord(allUsers);
     }
 
-    if (search !== "") {
-      filtered = filtered.filter(val => val.name.toLowerCase().includes(search.toLowerCase()));
+    if (search != "") {
+      filtered = filtered.filter(val =>
+        val.name.toLowerCase().includes(search.toLowerCase())
+      )
+    } else {
+      setRecord(allUsers);
     }
 
     if (sort === "ascending") {
@@ -67,15 +69,32 @@ const Table = () => {
     }
 
     setRecord(filtered);
-  }, [status, search, sort, allUsers]);
+
+  }, [status, search, sort])
 
   const resetData = () => {
-    setStatus("");
+    setStatus("")
     setSearch("");
     setSort("");
     setRecord(allUsers);
-    setSelectedUsers([]);
-  };
+  }
+
+  const multipleDeleteRecord = (id, checked) => {
+    let old = [...mulDelete];
+    if (checked) {
+      old.push(id)
+    } else {
+      old = old.filter(val => val != id);
+    }
+    setMulDelete(old);
+  }
+
+  const multipleDelete = () => {
+    let d = record.filter(val => !mulDelete.includes(val.id));
+    localStorage.setItem("users", JSON.stringify(d));
+    setRecord(d)
+    alert("All selected records are deleted..!");
+  }
 
   return (
     <div className="container mt-5">
@@ -108,7 +127,11 @@ const Table = () => {
       <table className="table table-bordered table-striped text-center">
         <thead className="thead-dark">
           <tr>
-            <th>Select to Delete</th>
+            <th>
+              <button className='btn btn-sm btn-danger' onClick={() => multipleDelete()}>
+                Selected Delete ({mulDelete.length})
+              </button>
+            </th>
             <th>ID</th>
             <th>Name</th>
             <th>Phone</th>
@@ -117,56 +140,52 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {record.length > 0 ? (
-            record.map((u, i) => {
-              const { id, name, phone, status } = u;
-              return (
-                <tr key={i}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(id)}
-                      onChange={() => handleCheckboxChange(id)}
-                    />
-                  </td>
-                  <td>{id}</td>
-                  <td>{name}</td>
-                  <td>{phone}</td>
-                  <td>
-                    <button
-                      onClick={() => changeStatus(id, status)}
-                      className={`btn btn-sm ${status === "active" ? 'btn-success' : 'btn-danger'}`}>
-                      {status}
-                    </button>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-danger me-2" onClick={() => userDelete(id)}>Delete</button>
-                    <button className="btn btn-sm btn-warning" onClick={() => navigate(`/edit`, { state: u })}>Edit</button>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan="6">No records found</td>
-            </tr>
-          )}
+          {
+            record.length > 0 ? (
+              record.map((u, i) => {
+                const { id, name, phone, status } = u;
+                return (
+                  <tr key={i}>
+                    <td>
+                      <input 
+                        type="checkbox" 
+                        onChange={(e) => multipleDeleteRecord(id, e.target.checked)} 
+                        checked={mulDelete.includes(u.id)}
+                        />
+                    </td>
+                    <td>{id}</td>
+                    <td>{name}</td>
+                    <td>{phone}</td>
+                    <td>
+                      <button
+                        onClick={() => changeStatus(id, status)}
+                        className={`btn btn-sm ${status === "active" ? 'btn-success' : 'btn-danger'}`}>
+                        {status}
+                      </button>
+                    </td>
+                    <td>
+                      <button className="btn btn-sm btn-danger me-2" onClick={() => userDelete(id)}>Delete</button>
+                      <button className="btn btn-sm btn-warning" onClick={() => navigate(`/edit`, { state: u })}>Edit</button>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="5">No records found</td>
+              </tr>
+            )
+          }
         </tbody>
       </table>
-
-      {selectedUsers.length > 0 && (
-        <div className="mb-3">
-          <button className="btn btn-danger" onClick={handleBulkDelete}>
-            Delete Selected ({selectedUsers.length})
-          </button>
-        </div>
-      )}
 
       <div className="text-center">
         <Link to="/add" className="btn btn-primary">Add New User</Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Table;
+
+// please solve the error of uncheckbox in this code.
