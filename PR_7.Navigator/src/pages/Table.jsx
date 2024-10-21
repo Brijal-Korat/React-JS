@@ -187,5 +187,3 @@ const Table = () => {
 }
 
 export default Table;
-
-// please solve the error of uncheckbox in this code.
