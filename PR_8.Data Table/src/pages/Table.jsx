@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 const Table = () => {
   const navigate = useNavigate();
@@ -107,103 +109,121 @@ const Table = () => {
   }
 
   return (
-    <div align='center'>
-      <h2>View Data</h2>
+    <div className="container my-4">
+      <h2 className="text-center mb-4">User Management</h2>
 
-      <select onChange={(e) => setStatus(e.target.value)} value={status}>
-        <option value="">--- Select Status ---</option>
-        <option value="active">Active</option>
-        <option value="deactive">Deactive</option>
-      </select>
+      <div className="d-flex align-items-center justify-content-center mb-3">
+        <div className="form-group mx-4">
+          <select className="form-control" onChange={(e) => setStatus(e.target.value)} value={status}>
+            <option value="">--- Filter by status ---</option>
+            <option value="active">Active</option>
+            <option value="deactive">Deactive</option>
+          </select>
+        </div>
 
-      <input
-        type="text"
-        placeholder='Search Here....'
-        onChange={(e) => setSearch(e.target.value)}
-        value={search}
-      />
+        <div className="form-group mx-4">
+          <input type="text" className="form-control" placeholder="Search by name..." onChange={(e) => setSearch(e.target.value)} value={search} />
+        </div>
 
-      <select onChange={(e) => setSort(e.target.value)} value={sort}>
-        <option value="">--- Select Sort ---</option>
-        <option value="ascending">A-Z</option>
-        <option value="descending">Z-A</option>
-      </select>
+        <div className="form-group mx-4">
+          <select className="form-control" onChange={(e) => setSort(e.target.value)} value={sort}>
+            <option value="">--- Sort by name ---</option>
+            <option value="ascending">A-Z</option>
+            <option value="descending">Z-A</option>
+          </select>
+        </div>
 
-      <button onClick={resetData}>Reset</button>
+        <button className="btn btn-secondary mx-4" onClick={resetData}>Reset</button>
+      </div>
 
-      <table border={1} cellPadding={5}>
-        <thead>
-          <tr>
-            <th>
-              <button onClick={() => multipleDelete()}>
-                Selected Delete ({mulDelete.length})
-              </button>
-            </th>
-            <th>
-              <button onClick={() => multipleStatus()}>
-                Selected Status ({mulStatusChange.length})
-              </button>
-            </th>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Gender</th>
-            <th>Course</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {records.length > 0 ? (
-            records.map((rcd, i) => {
-              const { id, name, email, gender, courses, date, status } = rcd;
-
-              return (
-                <tr key={i}>
-                  <td align='center'>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => multipleDeleteRecord(id, e.target.checked)}
-                      checked={mulDelete.includes(rcd.id)}
-                    />
-                  </td>
-                  <td align='center'>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => multipleStatusChange(id, e.target.checked)}
-                      checked={mulStatusChange.includes(rcd.id)}
-                    />
-                  </td>
-                  <td>{id}</td>
-                  <td>{name}</td>
-                  <td>{email}</td>
-                  <td>{gender}</td>
-                  <td>{courses.join(',  ')}</td>
-                  <td>{date}</td>
-                  <td>
-                    <button onClick={() => changeStatus(id, status)} style={{ backgroundColor: status === 'active' ? 'green' : 'red' }}>
-                      {status}
-                    </button>
-                  </td>
-                  <td>
-                    <button onClick={() => deleteFunction(id)}>Delete</button>
-                    <button onClick={() => navigate(`/edit`, { state: rcd })}>Edit</button>
-                  </td>
-                </tr>
-              );
-            })
-          ) : (
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead>
             <tr>
-              <td colSpan="8">No records found</td>
+              <th>
+                <button className="btn btn-danger" onClick={multipleDelete}>
+                  Delete Selected ({mulDelete.length})
+                </button>
+              </th>
+              <th>
+                <button className="btn btn-info" onClick={multipleStatus}>
+                  Change Status ({mulStatusChange.length})
+                </button>
+              </th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Course</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {
+              records.length > 0 ? (
+                records.map((rcd, i) => {
+                  const { id, name, email, gender, selectedCourses, date, status } = rcd;
+                  return (
+                    <tr key={i}>
+                      <td align='center'>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => multipleDeleteRecord(id, e.target.checked)}
+                          checked={mulDelete.includes(rcd.id)}
+                        />
+                      </td>
+                      <td align='center'>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => multipleStatusChange(id, e.target.checked)}
+                          checked={mulStatusChange.includes(rcd.id)}
+                        />
+                      </td>
+                      <td>{id}</td>
+                      <td>{name}</td>
+                      <td>{email}</td>
+                      <td>{gender}</td>
+                      <td>{selectedCourses.join(", ")}</td>
+                      <td>{date}</td>
+                      <td>
+                        <button
+                          className={`btn btn-${status === 'active' ? 'success' : 'danger'}`}
+                          onClick={() => changeStatus(id, status)}
+                        >
+                          {status}
+                        </button>
+                      </td>
+                      <td>
+                        <button className="btn btn-warning me-2" onClick={() => navigate(`/edit`, { state: rcd })}>
+                          Edit
+                        </button>
+                        <button className="btn btn-danger" onClick={() => deleteFunction(id)}>
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="10" className="text-center">No records found</td>
+                </tr>
+              )
+            }
+          </tbody>
+        </table>
+      </div>
 
-      <Link to={'/add'}>Add user</Link>
+      <div className="text-center">
+        <Link to={'/add'} className="btn btn-primary mt-3">Add New User</Link>
+      </div>
     </div>
   );
 };
 
 export default Table;
+
+
+
