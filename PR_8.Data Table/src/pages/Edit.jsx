@@ -99,7 +99,7 @@ const Edit = () => {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Gender:</label>
+              <label className="form-label">Gender: </label>
               <div className="form-check">
                 <input
                   type="radio"
