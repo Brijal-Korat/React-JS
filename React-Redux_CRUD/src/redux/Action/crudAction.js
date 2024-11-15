@@ -25,3 +25,11 @@ export const userChangeStatus = (statusData) => {
         payload: statusData
     }
 }
+
+export const searchFilter = (searchData) => {
+    return{
+        return : 'Search_Filter',
+        payload: searchData
+    }
+}
+

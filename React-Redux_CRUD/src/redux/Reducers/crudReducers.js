@@ -5,7 +5,6 @@ let initialState = {
 const crudReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'Add_User':
-            console.log(action.payload);
             let old = [...state.users, action.payload];
             localStorage.setItem("users", JSON.stringify(old));
             return {
@@ -14,7 +13,6 @@ const crudReducer = (state = initialState, action) => {
             }
 
         case 'Delete_User':
-            console.log(action.payload);
             const delData = state.users.filter(users => users.id !== action.payload);
             localStorage.setItem("users", JSON.stringify(delData));
             return {
@@ -23,7 +21,6 @@ const crudReducer = (state = initialState, action) => {
             };
 
         case 'Edit_User':
-            console.log(action.payload);
             const updatedUsers = state.users.map(user =>
                 user.id === action.payload.id ? action.payload : user
             );
@@ -61,9 +58,24 @@ const crudReducer = (state = initialState, action) => {
                 }
             }
 
+        case 'Search_Filter':
+            console.log(action.payload);
+            let filtered = state.users.filter(user =>
+                user.name.toLowerCase().includes(action.payload.toLowerCase())
+            );
+            localStorage.setItem("users", JSON.stringify(filtered));
+            return {
+                ...state,
+                users: filtered
+            }
+
+
+
+
         default:
             return state;
     }
 }
 
 export default crudReducer;
+ 
