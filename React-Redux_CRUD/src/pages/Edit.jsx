@@ -1,34 +1,42 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { addUser } from '../redux/Action/crudAction';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { editUser } from '../redux/Action/crudAction';
 
-const Add = () => {
+const Edit = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
+    const [editId, setEditId] = useState("");
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setName(location?.state?.name)
+        setPhone(location?.state?.phone)
+        setEditId(location?.state?.id)
+        
+    },[location?.state])
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         let obj = {
-            id: Math.floor(Math.random() * 10000),
-            name: name,
-            phone: phone,
-            status: "active"
+            id : editId,
+            name : name,
+            phone : phone
         }
 
-        dispatch(addUser(obj));
-        alert("User successfully added...!");
+        dispatch(editUser(obj));
         navigate(`/`);
     }
 
     return (
         <div align="center">
-            <h2>Add user</h2>
+            <h2>Edit user</h2>
 
             <form onSubmit={handleSubmit}>
                 <table border={1}>
@@ -53,4 +61,7 @@ const Add = () => {
     )
 }
 
-export default Add;
+export default Edit;
+
+
+// please compelete the code.
