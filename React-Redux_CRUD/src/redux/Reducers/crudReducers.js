@@ -58,16 +58,16 @@ const crudReducer = (state = initialState, action) => {
                 }
             }
 
-        case 'Search_Filter':
-            console.log(action.payload);
-            let filtered = state.users.filter(user =>
-                user.name.toLowerCase().includes(action.payload.toLowerCase())
-            );
-            localStorage.setItem("users", JSON.stringify(filtered));
-            return {
-                ...state,
-                users: filtered
-            }
+        // case 'Search_Filter':
+        //     console.log(action.payload);
+        //     let filtered = state.users.filter(user =>
+        //         user.name.toLowerCase().includes(action.payload.toLowerCase())
+        //     );
+        //     localStorage.setItem("users", JSON.stringify(filtered));
+        //     return {
+        //         ...state,
+        //         users: filtered
+        //     }
 
 
 

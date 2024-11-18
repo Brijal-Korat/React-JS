@@ -26,10 +26,10 @@ export const userChangeStatus = (statusData) => {
     }
 }
 
-export const searchFilter = (searchData) => {
-    return{
-        return : 'Search_Filter',
-        payload: searchData
-    }
-}
+// export const searchFilter = (searchData) => {
+//     return{
+//         return : 'Search_Filter',
+//         payload: searchData
+//     }
+// }
 

@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { userChangeStatus, deleteUser, editUser, searchFilter } from '../redux/Action/crudAction';  
+import { userChangeStatus, deleteUser,  } from '../redux/Action/crudAction';  
 
 const View = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [status, setStatus] = useState("");
-    const [search, setSearch] = useState("");
+    const [filterSearch, setFilterSearch] = useState("");
 
     const viewUsers = useSelector(state => state.crudReducer.users);
 
@@ -18,15 +17,8 @@ const View = () => {
         alert("Status changed successfully..!");
     }
 
-    const searchFiltering = (e) => {
-        dispatch(searchFilter(e.target.value));
-    }
-
-
-   
-
-
-
+    // console.log(filterSearch);
+    
     return (
         <div align="center">
             <h2>View User</h2>
@@ -36,8 +28,8 @@ const View = () => {
                 <input
                     type="text"
                     placeholder="Search by name..."
-                    onChange={searchFiltering}
-                    value={search}
+                    value={filterSearch}
+                    onChange={(e) => setFilterSearch(e.target.value)}
                 />
             </div>
             <br />
