@@ -1,64 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-  
-  const [products, setProducts] = useState("");
-
-  const getProducts = async () => {
-    try {
-      let productData = await fetch(`https://dummyjson.com/products`, {
-        method: "GET"
-      })
-      let res = await productData.json();
-      console.log(res.products);
-      setProducts(res.products);
-    } catch (err) {
-      console.log(err);
-      return false;
-    }
-  }
-
-  useEffect(() => {
-    getProducts();
-  }, [])
-
+  const [count, setCount] = useState(0)
 
   return (
-    <div align="center">
-      <h2>API_Hunter calling with axios method</h2>
-      <table border={1}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Brand</th>
-            <th>Category</th>
-            <th>Dimentions</th>
-            <th>Price</th>
-            <th>Rating</th>
-            <th>Stock</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            products.map((product, index) => (
-              <tr key={index}>
-                <td>{product.id}</td>
-                <td>{product.title}</td>
-                <td>{product.brand}</td>
-                <td>{product.category}</td>
-                <td></td>
-                <td>{product.price}</td>
-                <td>{product.rating}</td>
-                <td>{product.stock}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
   )
 }
 
-export default App;
-
+export default App
