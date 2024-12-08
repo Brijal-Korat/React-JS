@@ -21,13 +21,13 @@ const Add = () => {
         name: name,
         phone: phone,
       });
-      console.log("Document written with ID: ", docRef.id); // Log the added document
+      console.log("Document written with ID: ", docRef.id); 
       alert("Record added!");
       setName("");
       setPhone("");
-      navigate("/"); // Navigate to View page
+      navigate("/");
     } catch (err) {
-      console.error("Error adding document: ", err); // Log errors
+      console.error("Error adding document: ", err);
     }
   };
   

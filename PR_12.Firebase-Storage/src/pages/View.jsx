@@ -15,7 +15,7 @@ const View = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log("Fetched users:", users); // Log fetched data
+      console.log("Fetched users:", users); 
       setRecords(users);
     } catch (err) {
       console.error("Error fetching users:", err);
@@ -30,21 +30,21 @@ const View = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("Fetched users:", users); // Log fetched data
-        setRecords(users); // Update state with fetched data
+        console.log("Fetched users:", users); 
+        setRecords(users); 
       } catch (err) {
-        console.error("Error fetching users:", err); // Log errors
+        console.error("Error fetching users:", err); 
       }
     };
   
     getUsers();
-  }, []); // Run only on component mount
+  }, []); 
   
 
   return (
     <div align="center">
       <h2>View Users</h2>
-      <button onClick={getUsers}>Refresh</button> {/* Manual refresh */}
+      <button onClick={getUsers}>Refresh</button> 
       <table border={1}>
         <thead>
           <tr>
