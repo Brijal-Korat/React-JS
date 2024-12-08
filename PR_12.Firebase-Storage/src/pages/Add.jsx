@@ -31,7 +31,6 @@ const Add = () => {
     }
   };
   
-
   return (
     <div align="center">
       <h2>Add User</h2>
