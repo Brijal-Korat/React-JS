@@ -1,85 +1,76 @@
-import { collection, deleteDoc, doc, getDocs, getFirestore } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { app } from '../firebase'
+import { collection, deleteDoc, doc, getDocs, getFirestore } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { app } from "../firebase";
 
 const View = () => {
-    const navigate = useNavigate();
-    const db = getFirestore(app)
+  const navigate = useNavigate();
+  const db = getFirestore(app);
+  const [records, setRecords] = useState([]);
 
-    const [record, setRecord] = useState([]);
-
-
-    const getUser = async () => {
-        try {
-            const data = collection(db, "users")
-            const users = await getDocs(data);
-            const record = users.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-            }))
-            setRecord(record)
-        } catch (err) {
-            console.log(err);
-            return false
-        }
+  const getUsers = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      const users = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log("Fetched users:", users); // Log fetched data
+      setRecords(users);
+    } catch (err) {
+      console.error("Error fetching users:", err);
     }
+  };
 
-    useEffect(() => {
-        getUser();
-    }, [])
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const users = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log("Fetched users:", users); // Log fetched data
+        setRecords(users); // Update state with fetched data
+      } catch (err) {
+        console.error("Error fetching users:", err); // Log errors
+      }
+    };
+  
+    getUsers();
+  }, []); // Run only on component mount
+  
 
-    const deleteUser = async (id) => {
-        try {
-            let deletedata = doc(db, `users/${id}`);
-            await deleteDoc(deletedata);
-            alert("record delete");
-            getUser();
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
-
-    }
-
-
-    return (
-        <div align="center">
-            <h2>View User</h2>
-            <table border={1}>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Action</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        record.map((val) => {
-                            const { id, name, phone } = val;
-                            return (
-                                <tr>
-                                    <td>{id}</td>
-                                    <td>{name}</td>
-                                    <td>{phone}</td>
-                                    <td>
-                                        <button onClick={() => deleteUser(id)}>Delete</button> ||
-                                        <button onClick={() => navigate('/edit', { state: val })}>Edit</button>
-
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table>
-            <Link to={`/add`}>Add</Link>
-        </div>
-    )
-}
+  return (
+    <div align="center">
+      <h2>View Users</h2>
+      <button onClick={getUsers}>Refresh</button> {/* Manual refresh */}
+      <table border={1}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {records.map(({ id, name, phone }) => (
+            <tr key={id}>
+              <td>{id}</td>
+              <td>{name}</td>
+              <td>{phone}</td>
+              <td>
+                <button onClick={() => deleteUser(id)}>Delete</button> |{" "}
+                <button onClick={() => navigate("/edit", { state: { id, name, phone } })}>Edit</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Link to="/add">Add User</Link>
+    </div>
+  );
+};
 
 export default View;
-
