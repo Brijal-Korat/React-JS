@@ -7,7 +7,6 @@ function App() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [editId, setEditId] = useState("");
-  const [allRecord, setAllRecord] = useState(getRecord());
 
   const getRecord = () => {
     let all = localStorage.getItem("users");
@@ -17,6 +16,9 @@ function App() {
       return [];
     }
   }
+
+  const [allRecord, setAllRecord] = useState(getRecord());
+
 
 
   const handleSubmit = (e) => {
