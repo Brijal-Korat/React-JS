@@ -15,6 +15,7 @@ function App() {
     } else {
       return [];
     }
+    
   }
 
   const [allRecord, setAllRecord] = useState(getRecord());

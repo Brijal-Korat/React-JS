@@ -21,19 +21,6 @@ const Login = () => {
   };
 
   return (
-    // <div className="main" align="center">
-    //   <h2 style={{ color: "teal" }}>Login User</h2>
-    //   <form>
-    //     <label>Email:</label><br />
-    //     <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
-    //     <label>Password:</label><br />
-    //     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
-    //     <button type="button" onClick={handleLogin}>Login</button>
-    //   </form>
-    // </div>
-
-
-
     <div className="container my-4">
     <div className="card">
       <div className="card-header d-flex align-items-center justify-content-between">

@@ -1,18 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getFirestore, collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { app } from "../firebase";
 
 const Dashboard = () => {
     const [users, setUsers] = useState([]);
+    
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
     const navigate = useNavigate();
     const [status, setStatus] = useState("");
     const allUsersRecord = JSON.parse(localStorage.getItem('users')) || [];
     const [records, setRecords] = useState(allUsersRecord);
 
+    const db = getFirestore(app);
+
+    const getRecord = () => {
+        if (allUsersRecord) {
+            return JSON.parse(localStorage.getItem("users"));
+        } else {
+            return [];
+        }
+
+    }
+
+    const [allRecord, setAllRecord] = useState(getRecord());
+
     useEffect(() => {
-        const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-        setUsers(storedUsers);
+        const fetchUsers = async () => {
+            const usersCollection = collection(db, "users");
+            const usersSnapshot = await getDocs(usersCollection);
+            const usersList = usersSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            setUsers(usersList);
+        };
+
+        fetchUsers();
     }, []);
 
     const handleLogout = () => {
@@ -21,11 +46,16 @@ const Dashboard = () => {
         navigate("/");
     };
 
-    const deleteUser = (id) => {
-        const updatedUsers = users.filter((user) => user.id !== id);
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        setUsers(updatedUsers);
-        alert("User deleted successfully..!");
+
+    const deleteUser = async (id) => {
+        try {
+            await deleteDoc(doc(db, "users", id));
+            setUsers(users.filter((user) => user.id !== id));
+            alert("User deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting user: ", error);
+            alert("Failed to delete user.");
+        }
     };
 
     const changeStatus = (id, status) => {
@@ -46,12 +76,42 @@ const Dashboard = () => {
             <div className="card">
                 <div className="card-header d-flex justify-content-between align-items-center">
                     <h4>Dashboard</h4>
-                    <button className="btn btn-danger" onClick={handleLogout}>
-                        Logout
-                    </button>
+                    <div>
+                        <button className="btn btn-danger" onClick={handleLogout}>
+                            Logout
+                        </button>
+                        <button className="btn btn-success mx-2" onClick={() => navigate(`/add`)}>
+                            Add
+                        </button>
+                    </div>
                 </div>
+
+                <div className="card" style={{ width: '18rem' }}>
+                    <div className="card-header">
+                        Add Users
+                    </div>
+                    <div className="card-body">
+                        <form onSubmit={handleSubmit}>
+                            <div>
+                                <div className="mb-3">
+                                    <label className="form-label">Name</label>
+                                    <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} value={name} />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Email</label>
+                                    <input type="text" className="form-control" onChange={(e) => setEmail(e.target.value)} value={email} />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Phone</label>
+                                    <input type="text" className="form-control" onChange={(e) => setPhone(e.target.value)} value={phone} />
+                                </div>
+                                <button type="submit" className="btn btn-primary">Add User</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div className="card-body">
-                    <h5 className="card-title">View User Data</h5>
                     <div className="table-responsive">
                         <table className="table table-bordered table-striped">
                             <thead className="table-dark">
