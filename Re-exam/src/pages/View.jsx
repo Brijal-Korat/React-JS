@@ -49,7 +49,7 @@ const View = () => {
                                         <th>City</th>
                                         <th>Gender</th>
                                         <th>Salary</th>
-                                        <th>Designation</th>
+                                        <th>Degignation</th>
                                         <th>Actions</th>
                                         <th>Status</th>
                                     </tr>
