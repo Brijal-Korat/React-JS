@@ -6,7 +6,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 const View = () => {
 
     const navigate = useNavigate();
-    const [status, setStatus] = useState("");
     const allUsersRecord = JSON.parse(localStorage.getItem('users')) || [];
 
     const [records, setRecords] = useState(allUsersRecord);
