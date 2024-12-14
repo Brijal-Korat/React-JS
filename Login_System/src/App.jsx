@@ -2,9 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Login from './Pages/Login'
 import Register from './Pages/Register'
-import View from './Pages/View'
-import Add from './Pages/Add'
 import Edit from './Pages/Edit'
+import Add from './pages/Add'
+import View from './pages/View'
 function App() {
   return (
     <BrowserRouter>
@@ -20,3 +20,5 @@ function App() {
 }
 
 export default App
+
+

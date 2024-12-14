@@ -41,10 +41,10 @@ const Edit = () => {
   };
 
   return (
-    <div>
+    <div align='center'>
       <h1>Edit User</h1>
       <form onSubmit={handleSubmit}>
-        <table>
+        <table border={1}>
           <tbody>
             <tr>
               <td>Name:</td>
